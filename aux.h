@@ -1,7 +1,8 @@
-#ifdef AUX
+#pragma once
+#ifdef AUX_H
 #endif
 #include<bits/stdc++.h>
-#include<ncurses/curses.h>
+//#include<ncurses/curses.h>
 // ANSI color codes
 #define RESET   "\033[0m"
 #define RED     "\033[31m"
@@ -16,11 +17,11 @@
 using namespace std;
 
 // 256-color ANSI format: \033[38;5;COLORm for foreground
-string ansiColor(int color) {
+string inline ansiColor(int color) {
     return "\033[38;5;" + to_string(color) + "m";
 }
 
-void drawLogo() {
+void inline drawLogo() {
     // color gradient (using 256-color palette)
     vector<string> logoLines = {
         "░░███░░░░███░░░░░░█████░░░░░░███████████░░░░░░█████░░░░░░███░░░░███░░░░░░░█████░░░░░░░░░░░█████████░░░███░░░░███░░█████████░░███░░░░░░░░███░░░░░░░░░░░░███░░░░░░░",
@@ -40,4 +41,11 @@ void drawLogo() {
         cout << ansiColor(colors[colorIndex]) << logoLines[i] << endl;
     }
     cout << RESET << endl;
+}
+
+inline const char* sysenv() {
+    const char *name = "PATH";
+    const char *env_p = getenv(name);
+
+    return env_p;
 }
