@@ -1,0 +1,7 @@
+# ninja log v7
+12	236	1768266252363803594	CMakeFiles/Katana_Shell.dir/main.cpp.o.ddi	c91f50b6c0a5ad04
+236	243	1768266252587804397	CMakeFiles/Katana_Shell.dir/CXX.dd	6043a3065d00a8bd
+236	243	1768266252587804397	CMakeFiles/Katana_Shell.dir/main.cpp.o.modmap	6043a3065d00a8bd
+243	1750	1768266252595659542	CMakeFiles/Katana_Shell.dir/main.cpp.o	32ebdcc26fe8543d
+1750	1806	1768266254101809825	Katana_Shell	a2eaa9876f1e52dd
+236	243	1768266252587804397	/home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/Katana_Shell.dir/CXXModules.json	6043a3065d00a8bd

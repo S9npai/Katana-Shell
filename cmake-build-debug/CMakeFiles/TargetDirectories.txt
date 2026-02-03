@@ -1,0 +1,2 @@
+/home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/rebuild_cache.dir
