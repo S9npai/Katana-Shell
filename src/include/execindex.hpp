@@ -1,29 +1,29 @@
+#ifndef EXECINDEX_HPP
+#define EXECINDEX_HPP
 #include <functional>
 #include <unordered_map>
 #include <string>
-#include <iostream>
 #include <vector>
-#include "include/commands.h"
-#include "include/types.hpp"
+#include "commands.h"
+#include "types.hpp"
 
 
-std::unordered_map<std::string, std::function<void(const Command&)>> builtins = {
-    {"pwd", [](const Command& cmd){ currWorkingDir(); }},
+inline std::unordered_map<std::string, std::function<void(const Command&)>> builtins = {
     {"hostname", [](const Command&) {  get_host(); }},
     {"whoami", [](const Command& cmd){ get_user(); }},
     {"clear", [](const Command&) {  clearScreen(); }},
+    {"pwd", [](const Command& cmd){ currWorkingDir(); }},
     {"cd", [](const Command&) {  changeCurrDir(); }},
     {"ls", [](const Command&) {  displayDirContents(); }},
+    {"mkdir", [](const Command&) {  createDir(); }},
+    {"mvdir", [](const Command&) {  moveDir(); }},
+    {"rmdir", [](const Command&) {  removeDir(); }},
     {"touch", [](const Command&) {  createFile(); }},
     {"mv", [](const Command&) {  moveFile(); }},
     {"rm", [](const Command&) {  removeFile(); }},
-    {"mkdir", [](const Command&) {  createDir(); }},
-    {"mvdir", [](const Command&) {  moveDir(); }},
-    {"ls", [](const Command&) {  removeDir(); }},
     {"cp", [](const Command&) {  copy(); }},
-    {"ls", [](const Command&) {  ; }},
-    {"ls", [](const Command&) {  ; }},
-    {"ls", [](const Command&) {  ; }}
 };
 
+
+#endif
 

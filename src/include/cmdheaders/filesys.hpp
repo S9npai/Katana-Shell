@@ -4,11 +4,15 @@
 
 void currWorkingDir();
 
+void changeCurrDir();
+
 void displayDirContents();
 
-void listDirContents();
-
 void createDir();
+
+void removeDir();
+
+void moveDir();
 
 void createFile();
 
@@ -16,13 +20,7 @@ void moveFile();
 
 void removeFile();
 
-void changeCurrDir();
-
 void copy();
-
-void removeDir();
-
-void moveDir();
 
 #endif
 
