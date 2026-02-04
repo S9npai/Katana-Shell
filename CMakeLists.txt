@@ -5,5 +5,5 @@ project(Katana-Shell VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
-#add_executable(Katana_Shell main.cpp)
+add_executable(Katana_Shell src/main.cpp)
 #target_link_libraries(Katana_Shell ncurses)

@@ -1,10 +1,10 @@
-#include<iostream>
-#include<vector>
-#include<string>
-#include<sys/types.h>
-#include<pwd.h>
-#include<unistd.h>
-using namespace std;
+#include <iostream>
+#include <vector>
+#include <string>
+#include <sys/types.h>
+#include <pwd.h>
+#include <unistd.h>
+#include "../include/cmdheaders/sysinfo.hpp"
 
 
 void clearScreen() {
@@ -14,8 +14,8 @@ void clearScreen() {
 
 void get_user() {
     struct passwd *user = getpwuid(getuid());
-    if (user!=NULL) cout<<user->pw_name<<endl;
-    else cout<<"Unknown user !"<<endl;
+    if (user != nullptr) std::cout<<user->pw_name<< std::endl;
+    else std::cout<<"Unknown user !"<< std::endl;
 }
 
 void get_host() {

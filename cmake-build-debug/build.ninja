@@ -40,6 +40,50 @@ include CMakeFiles/rules.ninja
 # Logical path to working directory; prefix for absolute paths.
 
 cmake_ninja_workdir = /home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/
+# =============================================================================
+# Object build statements for EXECUTABLE target Katana_Shell
+
+
+#############################################
+# Order-only phony target for Katana_Shell
+
+build cmake_object_order_depends_target_Katana_Shell: phony || .
+
+build CMakeFiles/Katana_Shell.dir/src/main.cpp.o.ddi: CXX_SCAN__Katana_Shell_Debug /home/omar/Code/Projects/systems/Katana-Shell/src/main.cpp || cmake_object_order_depends_target_Katana_Shell
+  DEP_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o.ddi.d
+  DYNDEP_INTERMEDIATE_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o.ddi
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJ_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o
+  PREPROCESSED_OUTPUT_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o.ddi.i
+
+build CMakeFiles/Katana_Shell.dir/src/main.cpp.o: CXX_COMPILER__Katana_Shell_scanned_Debug /home/omar/Code/Projects/systems/Katana-Shell/src/main.cpp | CMakeFiles/Katana_Shell.dir/src/main.cpp.o.modmap || cmake_object_order_depends_target_Katana_Shell CMakeFiles/Katana_Shell.dir/CXX.dd
+  DEP_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o.d
+  DYNDEP_MODULE_MAP_FILE = CMakeFiles/Katana_Shell.dir/src/main.cpp.o.modmap
+  FLAGS = -g -std=gnu++20 -fdiagnostics-color=always
+  OBJECT_DIR = CMakeFiles/Katana_Shell.dir
+  OBJECT_FILE_DIR = CMakeFiles/Katana_Shell.dir/src
+  dyndep = CMakeFiles/Katana_Shell.dir/CXX.dd
+
+build CMakeFiles/Katana_Shell.dir/CXX.dd | /home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/Katana_Shell.dir/CXXModules.json CMakeFiles/Katana_Shell.dir/src/main.cpp.o.modmap: CXX_DYNDEP__Katana_Shell_Debug CMakeFiles/Katana_Shell.dir/src/main.cpp.o.ddi | /home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/Katana_Shell.dir/CXXDependInfo.json
+
+
+# =============================================================================
+# Link build statements for EXECUTABLE target Katana_Shell
+
+
+#############################################
+# Link the executable Katana_Shell
+
+build Katana_Shell: CXX_EXECUTABLE_LINKER__Katana_Shell_Debug CMakeFiles/Katana_Shell.dir/src/main.cpp.o
+  DEP_FILE = CMakeFiles/Katana_Shell.dir/link.d
+  FLAGS = -g
+  LINK_FLAGS = -Wl,--dependency-file=CMakeFiles/Katana_Shell.dir/link.d
+  OBJECT_DIR = CMakeFiles/Katana_Shell.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = Katana_Shell
+  TARGET_PDB = Katana_Shell.dbg
+
 
 #############################################
 # Utility command for edit_cache
@@ -75,7 +119,7 @@ build rebuild_cache: phony CMakeFiles/rebuild_cache.util
 #############################################
 # Folder: /home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug
 
-build all: phony
+build all: phony Katana_Shell
 
 # =============================================================================
 # Built-in targets

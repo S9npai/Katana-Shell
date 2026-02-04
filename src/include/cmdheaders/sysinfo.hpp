@@ -1,17 +1,10 @@
-#ifndef sysinfo_hpp
-#define sysinfo_hpp
-#include<iostream>
-#include<vector>
-#include<string>
-#include<sys/types.h>
-#include<pwd.h>
-#include<unistd.h>
-using namespace std;
+#ifndef SYSINFO_HPP
+#define SYSINFO_HPP
 
 
 void clearScreen();
 
-void getuser();
+void get_user();
 
 void get_host();
 

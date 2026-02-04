@@ -12,7 +12,11 @@
 						"string" : "3.30"
 					},
 					"projectIndex" : 0,
-					"source" : "."
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
 				}
 			],
 			"name" : "Debug",
@@ -23,10 +27,23 @@
 					[
 						0
 					],
-					"name" : "Katana-Shell"
+					"name" : "Katana-Shell",
+					"targetIndexes" : 
+					[
+						0
+					]
 				}
 			],
-			"targets" : []
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "Katana_Shell::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-Katana_Shell-Debug-37de8c1045468d3c85b0.json",
+					"name" : "Katana_Shell",
+					"projectIndex" : 0
+				}
+			]
 		}
 	],
 	"kind" : "codemodel",

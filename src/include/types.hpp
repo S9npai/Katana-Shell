@@ -1,28 +1,28 @@
 #ifndef TYPES_HPP
 #define TYPES_HPP
 
-#include<iostream>
-#include<vector>
-using namespace std;
+#include <iostream>
+#include <vector>
 
 
 struct Command {
-    string name;
-    vector<string> parameters;
-    vector<char> options;
-    string input_file;
-    string output_file;
+    std::string name;
+    std::vector<std::string> parameters;
+    std::vector<char> options;
+    std::string input_file;
+    std::string output_file;
 
     Command() {}
 
-    Command(string input) {
+    Command(std::string input) {
         void parseCommand();
     }
 };
 
 
 struct pipeline {
-    vector<Command> commands;
+    std::vector<Command> commands;
 };
 
 #endif
+

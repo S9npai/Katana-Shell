@@ -1,18 +1,17 @@
 #ifndef LOGO_H
 #define LOGO_H
 #include <iostream>
-#include<string>
-#include<vector>
-using namespace std;
+#include <string>
+#include <vector>
 
 
 struct palette {
-    inline static string magenta = "\033[35m";
-    inline static string cyan = "\033[36m";
+    inline static std::string magenta = "\033[35m";
+    inline static std::string cyan = "\033[36m";
 };
 
-void drawlogo() {
-    vector <string> logo = {
+void drawLogo() {
+    std::vector <std::string> logo = {
         "  __          __ __      __                         _____ __         ____     ",
         "  \\ \\        / //_/___ _/ /_____ _____  ____ _     / ___// /_  ___  / / /     ",
         "   \\ \\      / ,< / __ `/ __/ __ `/ __ \\/ __ `/_____\\__ \\/ __ \\/ _ \\/ / / ",
@@ -22,12 +21,12 @@ void drawlogo() {
     };
 
     for (const auto& line : logo) {
-        cout << line << endl;
+        std::cout << line << std::endl;
     }
 }
 
-void show_prompt() {
-    cout << palette::cyan << "Katana ニヿ ▶ " << endl;
+void showPrompt() {
+    std::cout << palette::cyan << "Katana ニヿ ▶ " << std::endl;
 }
 
 #endif

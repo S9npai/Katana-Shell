@@ -18,10 +18,10 @@
 	"module-dir" : "/home/omar/Code/Projects/systems/Katana-Shell/cmake-build-debug/CMakeFiles/Katana_Shell.dir",
 	"sources" : 
 	{
-		"CMakeFiles/Katana_Shell.dir/main.cpp.o" : 
+		"CMakeFiles/Katana_Shell.dir/src/main.cpp.o" : 
 		{
 			"language" : "CXX",
-			"source" : "/home/omar/Code/Projects/systems/Katana-Shell/main.cpp"
+			"source" : "/home/omar/Code/Projects/systems/Katana-Shell/src/main.cpp"
 		}
 	}
 }
