@@ -21,7 +21,7 @@ void drawLogo() {
     };
 
     for (const auto& line : logo) {
-        std::cout << line << std::endl;
+        std::cout << palette::magenta << line << std::endl;
     }
 }
 

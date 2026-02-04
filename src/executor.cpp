@@ -34,7 +34,7 @@ void executeExternal(const Command &cmd) {
     else if (pid == 0) {
         if (execvp(args[0], args.data()) == -1) {
             std::perror("Execution failed");
-            exit(EXIT_FAILURE);
+            _exit(EXIT_FAILURE);
         }
     }
     else {
@@ -42,6 +42,5 @@ void executeExternal(const Command &cmd) {
         waitpid(pid, &status, 0);
     }
 }
-
 
 
