@@ -1,4 +1,5 @@
 *.i linguist-generated=true
+*.idea linguist-generated=true
 *.cpp linguist-language=C++
 *.hpp linguist-language=C++
 *.h linguist-language=C++

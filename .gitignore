@@ -4,4 +4,4 @@ CMakeCache.txt
 CMakeFiles/
 cmake-build-debug/
 *.i
-
+*.idea/
