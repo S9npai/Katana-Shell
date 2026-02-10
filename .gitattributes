@@ -1,1 +1,8 @@
 *.i linguist-generated=true
+*.cpp linguist-language=C++
+*.hpp linguist-language=C++
+*.h linguist-language=C++
+
+*.txt linguist-documentation
+*.md linguist-documentation
+CMakeLists.txt linguist-generated=true
