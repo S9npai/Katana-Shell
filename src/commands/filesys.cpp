@@ -16,7 +16,7 @@ void currWorkingDir() {
     getcwd(cwd, sizeof(cwd));
     printf("%s \n" ,cwd);
 }
-
+/*
 void displayDirContents(Command& cmd) {
 
 }
@@ -29,7 +29,7 @@ void createFile(Command& cmd) {
 
 }
 
-/*
+
 
 void change_dir() {
     ;
@@ -47,10 +47,10 @@ void move() {
     ;
 }
 
-*/
+
 
 int main() {
     currWorkingDir();
 }
-
+*/
 

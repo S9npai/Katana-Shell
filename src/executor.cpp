@@ -23,6 +23,7 @@ void executeInternal(const Command & cmd) {
 void executeExternal(const Command &cmd) {
     std::vector<char*>args;
     args.push_back(const_cast<char*>(cmd.name.c_str()));
+
     for (auto &p: cmd.parameters) {
         args.push_back(const_cast<char*>(p.c_str()));
     }

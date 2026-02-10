@@ -24,11 +24,3 @@ void get_host() {
     gethostname(hostname, 1023);
     printf("%s\n", hostname);
 }
-
-int main() {
-    clearScreen();
-    get_host();
-    get_user();
-}
-
-

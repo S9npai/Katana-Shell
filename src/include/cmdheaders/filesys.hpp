@@ -4,7 +4,7 @@
 
 void currWorkingDir();
 
-void changeCurrDir();
+/*void changeCurrDir();
 
 void displayDirContents();
 
@@ -20,7 +20,7 @@ void moveFile();
 
 void removeFile();
 
-void copy();
+void copy();*/
 
 #endif
 

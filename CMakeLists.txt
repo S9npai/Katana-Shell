@@ -5,5 +5,13 @@ project(Katana-Shell VERSION 1.0
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(Katana_Shell src/main.cpp)
-#target_link_libraries(Katana_Shell ncurses)
+add_executable(Katana_Shell
+        src/main.cpp
+        src/parser.cpp
+        src/executor.cpp
+        src/execindex.cpp
+        src/commands/filesys.cpp
+        src/commands/sysinfo.cpp
+        src/helpers.cpp
+)
+

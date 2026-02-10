@@ -39,28 +39,6 @@ Command parseCommand(const std::string& input) {
         }
     }
 
-    std::cout<<"longOptions:"<< std::endl;
-    for (auto &x : cmd.longOptions) {
-        std::cout << x << std::endl;
-    }
-
-    std::cout<<"options:"<< std::endl;
-    for (auto &x : cmd.options) {
-        std::cout << x << std::endl;
-    }
-
-    std::cout<<"params:"<<std::endl;
-    for (auto &x : cmd.parameters) {
-        std::cout << x << std::endl;
-    }
-
     return cmd;
-}
-
-
-int main() {
-    std::string input;
-    getline(std::cin, input);
-    parseCommand(input);
 }
 
