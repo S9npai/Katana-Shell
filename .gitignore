@@ -1,3 +1,7 @@
-/cmake-build-debug/
+cmake-build-*/
+build/
+CMakeCache.txt
+CMakeFiles/
+cmake-build-debug/
 *.i
 
