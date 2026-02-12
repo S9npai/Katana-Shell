@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "cmdheaders/filesys.hpp"
 
 
 struct palette {
@@ -28,7 +29,7 @@ void drawLogo() {
 }
 
 void showPrompt() {
-    std::cout << palette::bold << palette::cyan << palette::blue << "Katana ヿニ ▶ " << palette::reset << std::flush << std::endl;
+    std::cout << palette::bold << palette::cyan << palette::blue << "Katanaヿラ " << palette::reset << currWorkingDir() << std::flush << std::endl;
 }
 
 #endif

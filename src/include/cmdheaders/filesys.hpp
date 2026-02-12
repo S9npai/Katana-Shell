@@ -2,13 +2,13 @@
 #define FILESYS_HPP
 
 
-void currWorkingDir();
-
-/*void changeCurrDir();
+std::string currWorkingDir();
 
 void displayDirContents();
 
-void createDir();
+/*void changeCurrDir();*/
+
+/*void createDir();
 
 void removeDir();
 
@@ -23,4 +23,5 @@ void removeFile();
 void copy();*/
 
 #endif
+
 
