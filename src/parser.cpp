@@ -6,6 +6,8 @@
 #include "include/types.hpp"
 #include "include/parser.hpp"
 
+#include "include/helpers.hpp"
+
 
 Command parseCommand(const std::string& input) {
     Command cmd;
@@ -23,6 +25,9 @@ Command parseCommand(const std::string& input) {
         else {
             ss >> token;
 
+            expandPath(token);
+            expandEnvVars(token);
+
             if (token.substr(0,2) == "--") {
                 cmd.longOptions.push_back(token.substr(2));
             }
@@ -37,6 +42,8 @@ Command parseCommand(const std::string& input) {
                 cmd.parameters.push_back(token);
             }
         }
+
+        cmd.rawArgs.push_back(token);
     }
 
     return cmd;

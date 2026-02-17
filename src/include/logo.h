@@ -13,7 +13,7 @@ struct palette {
     inline static std::string reset = "\033[0m";
 };
 
-void drawLogo() {
+inline void drawLogo() {
     std::vector <std::string> logo = {
         "__          __ __      __                         _____ __         ____     ",
         "\\ \\        / //_/___ _/ /_____ _____  ____ _     / ___// /_  ___  / / /     ",
@@ -28,7 +28,7 @@ void drawLogo() {
     }
 }
 
-void showPrompt() {
+inline void showPrompt() {
     std::cout << palette::bold << palette::cyan << palette::blue << "Katanaヿラ " << palette::reset << currWorkingDir() << std::flush << std::endl;
 }
 

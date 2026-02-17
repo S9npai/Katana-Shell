@@ -1,20 +1,23 @@
 #ifndef FILESYS_HPP
 #define FILESYS_HPP
+#include "../types.hpp"
 
 
 std::string currWorkingDir();
 
-void displayDirContents();
+void displayDirContents(Command &cmd);
 
-/*void changeCurrDir();*/
+void changeCurrDir(Command &cmd);
 
-/*void createDir();
+void createDir(Command &cmd);
+
+void createPath(Command &cmd);
 
 void removeDir();
 
 void moveDir();
 
-void createFile();
+/*void createFile();
 
 void moveFile();
 

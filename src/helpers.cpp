@@ -28,7 +28,7 @@ std::string expandPath(const std::string &path) {
     size_t slash_pos = path.find('/');
     std::string username = path.substr(1, slash_pos - 1);
 
-    struct passwd *pw = getpwnam(username.c_str());
+    passwd *pw = getpwnam(username.c_str());
     if (!pw) {
         std::cout << path << std::endl;
     }
@@ -39,7 +39,7 @@ std::string expandPath(const std::string &path) {
     return (std::string)(pw->pw_dir) + path.substr(slash_pos);
 }
 
-std::string expandEnvVars(std::string &token) {
+std::string expandEnvVars(const std::string &token) {
     std::string env_var;
     std::size_t i = 0;
 
@@ -79,5 +79,4 @@ std::string expandEnvVars(std::string &token) {
     }
     return env_var;
 }
-
 

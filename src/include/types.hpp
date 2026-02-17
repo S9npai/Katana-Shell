@@ -8,6 +8,7 @@ struct Command {
     std::vector<std::string> parameters;
     std::vector<char> options;
     std::vector<std::string> longOptions;
+    std::vector<std::string> rawArgs;
     std::vector<std::string> quotes;
     std::string input_file;
     std::string output_file;
