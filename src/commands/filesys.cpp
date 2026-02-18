@@ -168,8 +168,30 @@ void removeDir(Command &cmd) {
     }
 }
 
-/*void move() {
-    ;
-}*/
+void move(Command &cmd) {
+    if (cmd.parameters.size() < 2) {
+        std::cerr << "mv: missing parameters" << std::endl;
+    }
+
+    std::string source = cmd.parameters[0];
+    std::string destination = cmd.parameters[1];
+
+    try {
+        if (fs::is_directory(destination)) {
+            fs::path srcPath(source);
+            fs::path destPath(destination);
+            destPath = destPath/srcPath.filename();
+            fs::rename(source, destPath);
+        }
+
+        else {
+            fs::rename(source, destination);
+        }
+    }
+
+    catch (fs::filesystem_error &fe) {
+        std::cerr << "mv" << fe.what() << std::endl;
+    }
+}
 
 

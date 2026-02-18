@@ -13,7 +13,7 @@ void createDir(Command &cmd);
 
 void removeDir(Command &cmd);
 
-//void moveDir();
+void move(Command &cmd);
 
 /*void createFile();
 
