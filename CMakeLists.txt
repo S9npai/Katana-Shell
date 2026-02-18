@@ -10,6 +10,7 @@ add_executable(Katana_Shell
         src/parser.cpp
         src/executor.cpp
         src/execindex.cpp
+        src/helpers.cpp
         src/commands/filesys.cpp
         src/commands/sysinfo.cpp
         src/helpers.cpp

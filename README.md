@@ -16,31 +16,25 @@ Inspired by **Operating Systems: Three Easy Pieces (OSTEP) 📕**
 # Clone the repository
 git clone https://github.com/S9npai/Katana-Shell.git
 cd Katana-Shell
-
-
-
 ```
 
 ---
 
 ## TO-DO
 ### 1- Project Setup
--[x] README guide
+- [x] README guide
 
 ### 2- Core
--[x] Shell prompt & logo
-Exit command
-pwd command
-cd command
-clear command
-Prompt colors
+- [x] Shell prompt & logo
+- [x] Exit command
+- [x] pwd command
 
 ### 3- Commands
--[x] Command parsing
--[x] Fork & controlling processes via fork(), execvp() and waitpid()
+- [x] Command parsing
+- [x] Fork & controlling processes via fork(), execvp() and waitpid()
 
 #### Todo:
-- [ ] List directory contents (ls)
+- [x] List directory contents (ls)
 - [x] Working tree preview (pwd)
 - [x] Fetch session user & hostname
 - [x] Shell logo & prompt
