@@ -20,7 +20,7 @@ std::string expandPath(const std::string &path) {
         }
 
         if (path.length() == 1) {
-            return (std::string)home;
+            return home;
         }
         return std::string(home) + path.substr(1);
     }
@@ -34,7 +34,7 @@ std::string expandPath(const std::string &path) {
     }
 
     if (slash_pos == std::string::npos) {
-        return (std::string)(pw->pw_dir);
+        return pw->pw_dir;
     }
     return (std::string)(pw->pw_dir) + path.substr(slash_pos);
 }
@@ -46,13 +46,14 @@ std::string expandEnvVars(const std::string &token) {
     while (i < token.length()) {
         if (token[i] == '$') {
             i++;
-            std::string var_name = "";
+            std::string var_name;
 
             if (token[i] == '{') {
                 i++;
 
                 while (i < token.size() && token[i] != '}') {
                     var_name += token[i];
+                    i++;
                 }
 
                 if (i < token.size()) i++;

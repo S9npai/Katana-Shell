@@ -18,8 +18,7 @@ using fs::perms;
 std::string currWorkingDir() {
     char cwd[1024];
     const char* currDir = getcwd(cwd, sizeof(cwd));
-    //printf("%s \n" ,cwd);
-    return static_cast<std::string>(currDir);
+    return currDir;
 }
 
 void displayDirContents(Command& cmd) {
@@ -90,49 +89,42 @@ void displayDirContents(Command& cmd) {
     closedir(dir);
 }
 
+void createPath(const std::string &path) {
+    for (uint i = 1; i < path.size(); i++) {
+        if (path[i] == '/') {
+            if (mkdir(path.substr(0, i).c_str(), 0755) == -1 && errno != EEXIST) {
+                perror(("mkdir: " + path.substr(0,i)).c_str());
+                return;
+            }
+        }
+    }
+
+    if (mkdir(path.c_str(), 0755) == -1 && errno != EEXIST) {
+        perror(("mkdir: " + path).c_str());
+    }
+}
+
 void createDir(Command& cmd) {
+    if (cmd.parameters.empty()) {
+        std::cerr << "mkdir: missing operand" << std::endl;
+    }
+
     bool parent = false;
-
     for (auto &op: cmd.options) {
-        if (op == 'p') parent = true;
-        break;
+        if (op == 'p') { parent = true; break; }
     }
 
-    if (parent) {
-        for ()
-    }
-
-    else if (!parent) {
-        if (cmd.parameters.empty()) {
-            std::string destDir = getenv("HOME");
-
-            if (errno == EEXIST) {
-                std::cout << "Directory already exists \n";
-            }
-
-            mkdir(destDir.c_str(), 0755);
+    for (auto &param: cmd.parameters) {
+        if (!parent) {
+            if (mkdir(param.c_str(), 0755) == -1)
+                perror(("mkdir: cannot create directory '" + param + "'").c_str());
         }
 
-        else if (!cmd.parameters.empty()) {
-            bool completePath = true;
-            std::string destDir = cmd.parameters[0];
-
-            if (errno == EEXIST) {
-                std::cout << "No such file or directory \n";
-            }
-            mkdir(destDir.c_str(), 0755);
+        else {
+            createPath(param);
         }
     }
 }
-
-void createPath(Command& cmd) {
-}
-
-/*void createFile(Command& cmd) {
-    std::string path = cmd.parameters.empty() ? currWorkingDir() : cmd.parameters[0];
-
-
-}*/
 
 void changeCurrDir(Command &cmd) {
     std::string destDir;
@@ -162,13 +154,21 @@ void changeCurrDir(Command &cmd) {
 
 /*void copy() {
     ;
+}*/
+
+void removeDir(Command &cmd) {
+    std::string destDir = cmd.parameters.empty() ? currWorkingDir() : cmd.parameters[0];
+
+    if (rmdir(destDir.c_str()) != 0) {
+        std::cout << "Couldn't remove directory at "<< destDir << "\n";
+    }
+
+    else {
+        std::cout << "Directory removed" << std::endl;;
+    }
 }
 
-void remove() {
-    ;
-}
-
-void move() {
+/*void move() {
     ;
 }*/
 

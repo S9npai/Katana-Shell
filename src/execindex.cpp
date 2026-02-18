@@ -14,7 +14,7 @@ std::unordered_map<std::string, std::function<void(const Command&)>> builtins = 
     {"cd", [](const Command& cmd) { changeCurrDir(const_cast<Command&>(cmd)); }},
     {"mkdir", [](const Command& cmd) { createDir(const_cast<Command&>(cmd)); }},/*
     {"mvdir", [](const Command&) { moveDir(); }},
-    {"rmdir", [](const Command&) { removeDir(); }},
+    */{"rmdir", [](const Command& cmd) { removeDir(const_cast<Command&>(cmd)); }}/*,
     {"touch", [](const Command&) { createFile(); }},
     {"mv", [](const Command&) { moveFile(); }},
     {"rm", [](const Command&) { removeFile(); }},

@@ -5,6 +5,6 @@
 
 std::string expandPath(const std::string &path);
 
-std::string expandEnvVars(std::string &token);
+std::string expandEnvVars(const std::string &token);
 
 #endif

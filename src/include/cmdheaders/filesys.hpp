@@ -11,11 +11,9 @@ void changeCurrDir(Command &cmd);
 
 void createDir(Command &cmd);
 
-void createPath(Command &cmd);
+void removeDir(Command &cmd);
 
-void removeDir();
-
-void moveDir();
+//void moveDir();
 
 /*void createFile();
 
