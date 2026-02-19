@@ -9,7 +9,7 @@
 #include "include/executor.hpp"
 
 
-void executeInternal(const Command & cmd) {
+void executeInternal(Command &cmd) {
     auto it = builtins.find(cmd.name);
     if (it != builtins.end()) {
         it->second(cmd);
@@ -20,7 +20,7 @@ void executeInternal(const Command & cmd) {
     }
 }
 
-void executeExternal(const Command &cmd) {
+void executeExternal(Command &cmd) {
     std::vector<char*>args;
     args.push_back(const_cast<char*>(cmd.name.c_str()));
 
@@ -34,9 +34,9 @@ void executeExternal(const Command &cmd) {
     if (pid < 0) std::perror("Forking failed ! \n");
 
     else if (pid == 0) {
-        setpgid(pid, 0);
+        setpgid(0, 0);
         tcsetpgrp(STDIN_FILENO, getpgrp());
-        signal(SIGINT, SIG_DFL);
+        //signal(SIGINT, SIG_DFL);
 
         if (execvp(args[0], args.data()) == -1) {
             std::perror("Execution failed");
@@ -48,7 +48,7 @@ void executeExternal(const Command &cmd) {
 
     else {
         int status;
-        setpgid(pid, pid);
+        //setpgid(pid, pid);
         waitpid(pid, &status, 0);
         tcsetpgrp(STDIN_FILENO, getpgrp());
     }

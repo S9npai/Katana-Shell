@@ -15,6 +15,8 @@ void removeDir(Command &cmd);
 
 void move(Command &cmd);
 
+//void findFile(Command &cmd);
+
 /*void createFile();
 
 void moveFile();

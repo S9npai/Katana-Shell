@@ -11,32 +11,34 @@ std::string expandPath(const std::string &path) {
         return path;
     }
 
-    if (path.size() >= 1 && path[1] == '/') {
-        const char* home = getenv("HOME");
+    const char* home = getenv("HOME");
 
-        if (!home) {
-            struct passwd* pw = getpwuid(getuid());
-            home = pw ? pw->pw_name : ".";
-        }
+    if (!home) {
+        struct passwd* pw = getpwuid(getuid());
+        home = pw ? pw->pw_name : ".";
+    }
 
-        if (path.length() == 1) {
-            return home;
-        }
+    if (path.length() == 1) {
+        return home;
+    }
+
+    if (path[1] == '/') {
         return std::string(home) + path.substr(1);
     }
 
     size_t slash_pos = path.find('/');
     std::string username = path.substr(1, slash_pos - 1);
-
     passwd *pw = getpwnam(username.c_str());
+
     if (!pw) {
-        std::cout << path << std::endl;
+        return path;
     }
 
     if (slash_pos == std::string::npos) {
         return pw->pw_dir;
     }
-    return (std::string)(pw->pw_dir) + path.substr(slash_pos);
+
+    return std::string(pw->pw_dir) + path.substr(slash_pos);
 }
 
 std::string expandEnvVars(const std::string &token) {

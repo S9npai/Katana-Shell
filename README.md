@@ -12,10 +12,18 @@ Inspired by **Operating Systems: Three Easy Pieces (OSTEP) 📕**
 
 ### Setup
 
+**1- Clone the repo:**
 ```
-# Clone the repository
 git clone https://github.com/S9npai/Katana-Shell.git
 cd Katana-Shell
+```
+
+**2- Configure and build:**
+```
+cmake -S .
+cmake -B build .. -G ninja
+
+cmake --build build
 ```
 
 ---
@@ -26,20 +34,20 @@ cd Katana-Shell
 
 ### 2- Core
 - [x] Shell prompt & logo
-- [x] Exit command
-- [x] pwd command
+- [x] Exit
+- [x] Session hostname & username (**whoami** + **hostname**)
 
 ### 3- Commands
 - [x] Command parsing
-- [x] Fork & controlling processes via fork(), execvp() and waitpid()
+- [x] Fork & controlling processes via **fork()**, **execvp()** and **waitpid()**
+- [x] List directory contents **(ls)**
+- [x] Current directory (pwd)
+- [x] Moving files and directories **(mv)** 
+- [x] Deleting directories **(rmdir)**
+- [x] File finder **(find)**
+- [ ] File creation and deletion **(touch) & (rm)**
 
-#### Todo:
-- [x] List directory contents (ls)
-- [x] Working tree preview (pwd)
-- [x] Fetch session user & hostname
-- [x] Shell logo & prompt
-- [ ] 
-- [ ] 
-- [ ] 
-- [ ] 
+### 4- Advanced Features
+- [ ] Command piping: via **( | )**
+- [ ] **Input/Output** Redirection
 

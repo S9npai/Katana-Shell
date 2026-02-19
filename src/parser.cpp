@@ -14,7 +14,6 @@ Command parseCommand(const std::string& input) {
     ss >> cmd.name;
 
     std::string token;
-
     while (ss >> std::ws && !ss.eof()) {
         if (ss.peek() == '"') {
             ss >> quoted(token);
@@ -23,7 +22,6 @@ Command parseCommand(const std::string& input) {
 
         else {
             ss >> token;
-
             token = expandPath(token);
             token = expandEnvVars(token);
 
@@ -41,7 +39,6 @@ Command parseCommand(const std::string& input) {
                 cmd.parameters.push_back(token);
             }
         }
-
         cmd.rawArgs.push_back(token);
     }
 
