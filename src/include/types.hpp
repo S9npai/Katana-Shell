@@ -14,6 +14,14 @@ struct Command {
     std::string input_file;
     std::string output_file;
 
+    std::vector<char*> argv() {
+        std::vector<char*> v;
+        v.push_back(const_cast<char*>(name.c_str()));
+        for (auto &a : rawArgs) v.push_back(const_cast<char*>(a.c_str()));
+        v.push_back(nullptr);
+        return v;
+    }
+
     Command() = default;
 };
 

@@ -15,8 +15,13 @@ Command parseCommand(const std::string& input) {
 
     std::string token;
     while (ss >> std::ws && !ss.eof()) {
-        if (ss.peek() == '"') {
-            ss >> quoted(token);
+        char peek = ss.peek();
+        if (ss.peek() == '"' || ss.peek() == '\'') {
+            ss >> quoted(token, peek);
+
+            if (peek == '"') {
+                token = expandEnvVars(token);
+            }
             cmd.parameters.push_back(token);
         }
 
@@ -43,5 +48,18 @@ Command parseCommand(const std::string& input) {
     }
 
     return cmd;
+}
+
+pipeline parsePipeline(std::string &input) {
+    pipeline ppn;
+    std::string segment;
+    std::stringstream ss(input);
+
+    while (std::getline(ss, segment, '|')) {
+        if (segment.find_first_not_of(" \t\n\r") == std::string::npos) continue;
+        ppn.commands.push_back(parseCommand(segment));
+    }
+
+    return ppn;
 }
 

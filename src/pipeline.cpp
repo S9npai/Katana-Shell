@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include "include/pipeline.hpp"
 #include <sys/wait.h>
+#include "execindex.hpp"
 
 
 void pipelineHandler(pipeline &ppn) {
@@ -17,7 +18,16 @@ void pipelineHandler(pipeline &ppn) {
 
         pid_t pid = fork();
 
+        if (pid < 0) {
+            perror("Forking: error");
+            close(fd[0]);
+            close(fd[1]);
+            break;
+        }
+
         if (pid == 0) {
+            signal(SIGINT, SIG_DFL);
+
             if (prev_read != -1) {
                 dup2(prev_read, STDIN_FILENO);
                 close(prev_read);
@@ -30,10 +40,15 @@ void pipelineHandler(pipeline &ppn) {
             }
 
             Command &cmd = ppn.commands[i];
-            std::vector<char*> args;
-            args.push_back(const_cast<char*>(cmd.name.c_str()));
-            for (auto &a : cmd.rawArgs) args.push_back(const_cast<char*>(a.c_str()));
-            args.push_back(nullptr);
+
+            auto it = builtins.find(cmd.name);
+
+            if (it != builtins.end()) {
+                it->second(cmd);
+                _exit(EXIT_SUCCESS);
+            }
+
+            auto args = cmd.argv();
 
             execvp(args[0], args.data());
             perror("Katana");

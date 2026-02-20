@@ -1,32 +1,35 @@
 #include <iostream>
 #include <string>
+#include <csignal>
 #include "include/executor.hpp"
 #include "include/parser.hpp"
 #include "include/types.hpp"
 #include "include/logo.h"
-#include <csignal>
+#include "pipeline.hpp"
+#include "signals.h"
 
 
 int main() {
-    signal(SIGINT, SIG_IGN);
-
+    setupParentSignals();
     drawLogo();
 
     while (true) {
         showPrompt();
 
         std::string input;
-        if (!std::getline(std::cin, input) || input == "exit") {
-            break;
+        if (!std::getline(std::cin, input)) break;
+
+        if (input.empty()) continue;
+
+        if (input.find('|') != std::string::npos) {
+            pipeline ppn = parsePipeline(input);
+            pipelineHandler(ppn);
         }
 
-        if (input.empty()) {
-            continue;
+        else {
+            Command cmd = parseCommand(input);
+            executeInternal(cmd);
         }
-
-        Command cmd = parseCommand(input);
-
-        executeInternal(cmd);
     }
 
     return 0;
