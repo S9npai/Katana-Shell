@@ -21,37 +21,33 @@ void executeInternal(Command &cmd) {
 }
 
 void executeExternal(Command &cmd) {
-    std::vector<char*>args;
+    std::vector<char*> args;
     args.push_back(const_cast<char*>(cmd.name.c_str()));
-
-    for (auto &g: cmd.rawArgs) {
-        args.push_back(const_cast<char*>(g.c_str()));
-    }
+    for (auto &g : cmd.rawArgs) args.push_back(const_cast<char*>(g.c_str()));
     args.push_back(nullptr);
 
     pid_t pid = fork();
 
     if (pid < 0) std::perror("Forking failed ! \n");
 
-    else if (pid == 0) {
-        setpgid(0, 0);
-        tcsetpgrp(STDIN_FILENO, getpgrp());
-        //signal(SIGINT, SIG_DFL);
+    if (pid == 0) {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
+        signal(SIGTSTP, SIG_DFL);
+        signal(SIGTTIN, SIG_DFL);
+        signal(SIGTTOU, SIG_DFL);
 
         if (execvp(args[0], args.data()) == -1) {
-            std::perror("Execution failed");
+            std::perror("Katana-Shell");
             _exit(EXIT_FAILURE);
         }
-
-        _exit(1);
     }
 
-    else {
+    else if (pid > 0) {
         int status;
-        //setpgid(pid, pid);
-        waitpid(pid, &status, 0);
-        tcsetpgrp(STDIN_FILENO, getpgrp());
+        waitpid(pid, &status, WUNTRACED);
     }
 }
+
 
 

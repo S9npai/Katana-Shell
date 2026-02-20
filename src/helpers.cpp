@@ -15,14 +15,12 @@ std::string expandPath(const std::string &path) {
 
     if (!home) {
         struct passwd* pw = getpwuid(getuid());
-        home = pw ? pw->pw_name : ".";
+        home = pw ? pw->pw_dir : ".";
     }
 
-    if (path.length() == 1) {
-        return home;
-    }
+    if (path.length() == 1 && path == "~") return home;
 
-    if (path[1] == '/') {
+    if (path.size() > 1 && path[1] == '/') {
         return std::string(home) + path.substr(1);
     }
 

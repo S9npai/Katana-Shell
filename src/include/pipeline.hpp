@@ -1,7 +1,8 @@
 #ifndef PIPELINE_HPP
 #define PIPELINE_HPP
+#include "types.hpp"
 
 
-void pipelineHandler(const char* p1, const char* p2);
+void pipelineHandler(pipeline &ppn);
 
 #endif
