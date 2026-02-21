@@ -11,17 +11,14 @@
 Command parseCommand(const std::string& input) {
     Command cmd;
     std::stringstream ss(input);
+    std::string token;
     ss >> cmd.name;
 
-    std::string token;
     while (ss >> std::ws && !ss.eof()) {
         char peek = ss.peek();
         if (ss.peek() == '"' || ss.peek() == '\'') {
             ss >> quoted(token, peek);
-
-            if (peek == '"') {
-                token = expandEnvVars(token);
-            }
+            if (peek == '"') token = expandEnvVars(token);
             cmd.parameters.push_back(token);
         }
 
@@ -35,14 +32,10 @@ Command parseCommand(const std::string& input) {
             }
 
             else if (token[0] == '-') {
-                for (size_t i = 1; i < token.size(); i++) {
-                    cmd.options.push_back(token[i]);
-                }
+                for (size_t i = 1; i < token.size(); i++) cmd.options.push_back(token[i]);
             }
 
-            else {
-                cmd.parameters.push_back(token);
-            }
+            else cmd.parameters.push_back(token);
         }
         cmd.rawArgs.push_back(token);
     }

@@ -16,6 +16,7 @@ add_executable(Katana-Shell
         src/executor.cpp
         src/execindex.cpp
         src/pipeline.cpp
+        src/signals.cpp
         src/commands/filesys.cpp
         src/commands/sysinfo.cpp
         src/helpers.cpp

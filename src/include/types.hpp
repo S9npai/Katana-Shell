@@ -5,14 +5,11 @@
 
 
 struct Command {
-    std::string name;
-    std::vector<std::string> parameters;
-    std::vector<char> options;
-    std::vector<std::string> longOptions;
-    std::vector<std::string> rawArgs;
-    std::vector<std::string> quotes;
-    std::string input_file;
-    std::string output_file;
+    std::string                 name;
+    std::vector<std::string>    parameters;
+    std::vector<char>           options;
+    std::vector<std::string>    longOptions;
+    std::vector<std::string>    rawArgs;
 
     std::vector<char*> argv() {
         std::vector<char*> v;
@@ -25,10 +22,22 @@ struct Command {
     Command() = default;
 };
 
-
 struct pipeline {
     std::vector<Command> commands;
 };
+
+enum class RedirectMode {
+    None,
+    Input,
+    Output,
+    Append
+};
+
+struct Redirect {
+    std::string file;
+    RedirectMode mode;
+};
+
 
 #endif
 

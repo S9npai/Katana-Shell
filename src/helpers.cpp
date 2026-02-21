@@ -28,13 +28,9 @@ std::string expandPath(const std::string &path) {
     std::string username = path.substr(1, slash_pos - 1);
     passwd *pw = getpwnam(username.c_str());
 
-    if (!pw) {
-        return path;
-    }
+    if (!pw) { return path; }
 
-    if (slash_pos == std::string::npos) {
-        return pw->pw_dir;
-    }
+    if (slash_pos == std::string::npos) { return pw->pw_dir; }
 
     return std::string(pw->pw_dir) + path.substr(slash_pos);
 }
@@ -56,20 +52,16 @@ std::string expandEnvVars(const std::string &token) {
                     i++;
                 }
 
-                if (i < token.size()) i++;
+                if (i < token.size()) { i++; }
             }
 
             else {
-                while (i < token.size() && (std::isalnum(token[i]) || token[i] == '_')) {
-                    var_name += token[i++];
-                }
+                while (i < token.size() && (std::isalnum(token[i]) || token[i] == '_')) { var_name += token[i++]; }
             }
 
             if (!var_name.empty()) {
                 const char* val = std::getenv(var_name.c_str());
-                if (val) {
-                    env_var += val;
-                }
+                if (val) { env_var += val; }
             }
         }
 

@@ -4,6 +4,9 @@
 
 void sigchld_handler(int);
 
+void blockSIGCHLD(sigset_t &prev);
+void restoreSIGCHLD(sigset_t &prev);
+
 void setupParentSignals();
 void setupChildSignals();
 

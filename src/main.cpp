@@ -19,7 +19,7 @@ int main() {
         std::string input;
         if (!std::getline(std::cin, input)) break;
 
-        if (input.empty()) continue;
+        if (input.empty() || input.find_first_not_of(" \t\n\r") == std::string::npos ) continue;
 
         if (input.find('|') != std::string::npos) {
             pipeline ppn = parsePipeline(input);

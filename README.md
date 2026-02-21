@@ -28,7 +28,7 @@ cmake --build build
 
 ---
 
-## TO-DO
+## To-Do
 ### 1- Project Setup
 - [x] README guide
 
@@ -44,10 +44,10 @@ cmake --build build
 - [x] Current directory (pwd)
 - [x] Moving files and directories **(mv)** 
 - [x] Deleting directories **(rmdir)**
-- [x] File finder **(find)**
+- [ ] File finder **(find)**
 - [ ] File creation and deletion **(touch) & (rm)**
 
 ### 4- Advanced Features
-- [ ] Command piping: via **( | )**
-- [ ] **Input/Output** Redirection
+- [x] Command pipes: via **( | )**
+- [ ] **Input/Output** Redirection **(>, >>, <, <<)**
 

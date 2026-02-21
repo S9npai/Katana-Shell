@@ -4,6 +4,7 @@
 #include "include/pipeline.hpp"
 #include <sys/wait.h>
 #include "execindex.hpp"
+#include "signals.h"
 
 
 void pipelineHandler(pipeline &ppn) {
@@ -14,19 +15,25 @@ void pipelineHandler(pipeline &ppn) {
         bool last = (i == ppn.commands.size() - 1);
 
         int fd[2];
-        if (!last) pipe(fd);
+        if (!last) {
+            if (pipe(fd) == -1) { perror("pipe"); break; }
+        }
+
+        sigset_t prev;
+        blockSIGCHLD(prev);
 
         pid_t pid = fork();
 
         if (pid < 0) {
-            perror("Forking: error");
-            close(fd[0]);
-            close(fd[1]);
+            perror("Fork:");
+            restoreSIGCHLD(prev);
+            if (!last) { close(fd[0]); close(fd[1]); }
             break;
         }
 
         if (pid == 0) {
             signal(SIGINT, SIG_DFL);
+            restoreSIGCHLD(prev);
 
             if (prev_read != -1) {
                 dup2(prev_read, STDIN_FILENO);
@@ -49,18 +56,20 @@ void pipelineHandler(pipeline &ppn) {
             }
 
             auto args = cmd.argv();
-
             execvp(args[0], args.data());
             perror("Katana");
             _exit(EXIT_FAILURE);
         }
 
         pids.push_back(pid);
+        restoreSIGCHLD(prev);
 
         if (prev_read != -1) close(prev_read);
         if (!last) close(fd[1]);
-        prev_read = last? -1 : fd[0];
+        prev_read = last ? -1 : fd[0];
     }
+
+    if (prev_read == -1) close(prev_read);
 
     for (auto &p: pids) {
         int status;

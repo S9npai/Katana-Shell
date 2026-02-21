@@ -26,3 +26,14 @@ void setupChildSignals() {
     signal(SIGCHLD, SIG_DFL);
 }
 
+void restoreSIGCHLD(sigset_t &prev) {
+    sigprocmask(SIG_SETMASK, &prev, nullptr);
+}
+
+void blockSIGCHLD(sigset_t &prev) {
+    sigset_t mask;
+    sigemptyset(&mask);
+    sigaddset(&mask, SIGCHLD);
+    sigprocmask(SIG_BLOCK, &mask, &prev);
+}
+
