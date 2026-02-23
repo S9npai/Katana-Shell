@@ -7,6 +7,8 @@
 #include "include/types.hpp"
 #include "include/execindex.hpp"
 #include "include/executor.hpp"
+
+#include "redirection.hpp"
 #include "signals.h"
 
 
@@ -15,7 +17,17 @@ void executeInternal(Command &cmd) {
 
     auto it = builtins.find(cmd.name);
     if (it != builtins.end()) {
+        int save_in = dup(STDIN_FILENO);
+        int save_out = dup(STDIN_FILENO);
+
+        redirectionHandler(cmd);
+
         it->second(cmd);
+
+        dup2(save_in, STDIN_FILENO);
+        dup2(save_out, STDOUT_FILENO);
+        close(save_in);
+        close(save_out);
     }
 
     else {
@@ -24,7 +36,8 @@ void executeInternal(Command &cmd) {
 }
 
 void executeExternal(Command &cmd) {
-    auto args = cmd.argv();
+    auto agv = cmd.argv();
+    char** args = agv.data();
 
     sigset_t prev;
     blockSIGCHLD(prev);
@@ -41,7 +54,9 @@ void executeExternal(Command &cmd) {
         restoreSIGCHLD(prev);
         setupChildSignals();
 
-        if (execvp(args[0], args.data()) == -1) {
+        redirectionHandler(cmd);
+
+        if (execvp(args[0], args) == -1) {
             std::perror("Katana-Shell");
             _exit(EXIT_FAILURE);
         }

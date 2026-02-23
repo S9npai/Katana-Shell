@@ -24,6 +24,24 @@ Command parseCommand(const std::string& input) {
 
         else {
             ss >> token;
+
+            if (token == "<" || token == ">" || token == ">>" || token == "2>") {
+                std::string filename;
+                if (ss >> filename) {
+                    filename = expandPath(filename);
+
+                    RedirectMode mode = {};
+
+                    if (token == "<")       mode = RedirectMode::Input;
+                    else if (token == ">")       mode = RedirectMode::Output;
+                    else if (token == ">>")       mode = RedirectMode::Append;
+                    else if (token == "2>")       mode = RedirectMode::Error;
+
+                    cmd.redirections.push_back({filename, mode});
+                }
+                continue;
+            }
+
             token = expandPath(token);
             token = expandEnvVars(token);
 
@@ -55,4 +73,5 @@ pipeline parsePipeline(std::string &input) {
 
     return ppn;
 }
+
 

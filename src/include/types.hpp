@@ -4,12 +4,26 @@
 #include <string>
 
 
+enum class RedirectMode {
+    None,
+    Input,
+    Output,
+    Append,
+    Error
+};
+
+struct Redirect {
+    std::string file;
+    RedirectMode mode;
+};
+
 struct Command {
     std::string                 name;
     std::vector<std::string>    parameters;
     std::vector<char>           options;
     std::vector<std::string>    longOptions;
     std::vector<std::string>    rawArgs;
+    std::vector<Redirect>       redirections;
 
     std::vector<char*> argv() {
         std::vector<char*> v;
@@ -25,19 +39,6 @@ struct Command {
 struct pipeline {
     std::vector<Command> commands;
 };
-
-enum class RedirectMode {
-    None,
-    Input,
-    Output,
-    Append
-};
-
-struct Redirect {
-    std::string file;
-    RedirectMode mode;
-};
-
 
 #endif
 

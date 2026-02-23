@@ -4,6 +4,7 @@
 #include "include/pipeline.hpp"
 #include <sys/wait.h>
 #include "execindex.hpp"
+#include "redirection.hpp"
 #include "signals.h"
 
 
@@ -47,7 +48,7 @@ void pipelineHandler(pipeline &ppn) {
             }
 
             Command &cmd = ppn.commands[i];
-
+            redirectionHandler(cmd);
             auto it = builtins.find(cmd.name);
 
             if (it != builtins.end()) {
@@ -69,7 +70,7 @@ void pipelineHandler(pipeline &ppn) {
         prev_read = last ? -1 : fd[0];
     }
 
-    if (prev_read == -1) close(prev_read);
+    if (prev_read != -1) close(prev_read);
 
     for (auto &p: pids) {
         int status;

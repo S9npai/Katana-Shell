@@ -5,7 +5,7 @@
 #include "include/parser.hpp"
 #include "include/types.hpp"
 #include "include/logo.h"
-#include "pipeline.hpp"
+#include "../include/pipeline.hpp"
 #include "signals.h"
 
 

@@ -48,6 +48,7 @@ cmake --build build
 - [ ] File creation and deletion **(touch) & (rm)**
 
 ### 4- Advanced Features
-- [x] Command pipes: via **( | )**
-- [ ] **Input/Output** Redirection **(>, >>, <, <<)**
+- [x] Command pipes **( | )**
+- [X] **Input/Output** Redirection **(>, >>, <, <<)**
+- [ ] Command history
 
