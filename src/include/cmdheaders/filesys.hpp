@@ -15,15 +15,13 @@ void removeDir(Command &cmd);
 
 void move(Command &cmd);
 
-//void findFile(Command &cmd);
+void findFile(Command &cmd);
 
-/*void createFile();
+void createFile();
 
-void moveFile();
+void removeFile(Command &cmd);
 
-void removeFile();
-
-void copy();*/
+void copyFile(Command &cmd);
 
 #endif
 

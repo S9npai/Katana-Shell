@@ -152,9 +152,25 @@ void changeCurrDir(Command &cmd) {
     currWorkingDir();
 }
 
-/*void copy() {
-    ;
-}*/
+void removeFile(Command &cmd) {
+    bool recursive = false;
+    for (auto &o: cmd.options) {
+        if (o == 'r' || o == 'R') recursive = true;
+    }
+
+    if (cmd.parameters.empty()) { std::cerr << "rm: missing operand" << std::endl; }
+
+    for (auto& target: cmd.parameters) {
+        try {
+            if (recursive) fs::remove_all(target);
+            else fs::remove(target);
+        }
+
+        catch (fs::filesystem_error &e) {
+            std::cout << "rm: " << e.what() << " \n";
+        }
+    }
+}
 
 void removeDir(Command &cmd) {
     std::string destDir = cmd.parameters.empty() ? currWorkingDir() : cmd.parameters[0];
@@ -169,9 +185,7 @@ void removeDir(Command &cmd) {
 }
 
 void move(Command &cmd) {
-    if (cmd.parameters.size() < 2) {
-        std::cerr << "mv: missing parameters" << std::endl;
-    }
+    if (cmd.parameters.size() < 2) { std::cerr << "mv: missing parameters" << std::endl; return; }
 
     std::string source = cmd.parameters[0];
     std::string destination = cmd.parameters[1];
@@ -195,3 +209,49 @@ void move(Command &cmd) {
 }
 
 
+void copyFile(Command &cmd) {
+    if (cmd.parameters.size() < 2) { std::cerr << "cp: missing operands \n"; return; }
+
+    std::string sourceDir = cmd.parameters[0];
+    std::string destDir = cmd.parameters[1];
+
+    bool recursive = false;
+    for (auto &o: cmd.options) { if (o == 'r' || o == 'R') recursive = true; }
+
+    fs::copy_options options = fs::copy_options::overwrite_existing;
+    if (recursive) options = options | fs::copy_options::recursive ;
+
+    try {
+        fs::copy(sourceDir, destDir, options);
+    }
+    catch (fs::filesystem_error &e) {
+        std::cout << "cp: " << e.what() << std::endl;
+    }
+}
+
+void createFile(Command &cmd) {
+    if (cmd.parameters.empty()) { std::cerr << "touch: missing operand" << std::endl; }
+
+    for (auto &filename: cmd.parameters) {
+        try {
+            fs::path p(filename);
+
+            if (!fs::exists(p)) { std::ofstream ofs(p); ofs.close(); }
+            else { fs::last_write_time(p, fs::file_time_type::clock::now()); }
+
+        }
+
+        catch (fs::filesystem_error &e) {
+            std::cerr << "touch:" << e.what() << std::endl;
+        }
+    }
+}
+
+void findFile(Command &cmd) {
+    if (cmd.parameters.size() < 1) { std::cerr << "Usage: find [path] [filename]" << std::endl; }
+    std::string target = cmd.parameters[0];
+
+    for (auto &entry: fs::recursive_directory_iterator(".")) {
+        if (entry.path().filename() == target) std::cout << entry.path().string() << std::endl;
+    }
+}

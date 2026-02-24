@@ -18,7 +18,7 @@ void executeInternal(Command &cmd) {
     auto it = builtins.find(cmd.name);
     if (it != builtins.end()) {
         int save_in = dup(STDIN_FILENO);
-        int save_out = dup(STDIN_FILENO);
+        int save_out = dup(STDOUT_FILENO);
 
         redirectionHandler(cmd);
 
