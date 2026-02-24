@@ -4,25 +4,15 @@
 
 
 std::string currWorkingDir();
-
 void displayDirContents(Command &cmd);
-
 void changeCurrDir(Command &cmd);
-
 void createDir(Command &cmd);
-
 void removeDir(Command &cmd);
-
 void move(Command &cmd);
-
-/*void createFile();
-
-void moveFile();
-
-void removeFile();
-
-void copy();*/
+void findFile(Command &cmd);
+void createFile(Command &cmd);
+void removeFile(Command &cmd);
+void copyFile(Command &cmd);
 
 #endif
-
 

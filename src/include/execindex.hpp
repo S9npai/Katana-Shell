@@ -10,7 +10,7 @@
 #include "types.hpp"
 
 
-extern std::unordered_map<std::string, std::function<void(const Command&)>> builtins;
+extern std::unordered_map<std::string, std::function<void(Command&)>> builtins;
 
 
 #endif

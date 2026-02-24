@@ -4,4 +4,8 @@
 
 Command parseCommand(const std::string& input);
 
+pipeline parsePipeline(std::string &input);
+
+
+
 #endif

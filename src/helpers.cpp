@@ -11,32 +11,28 @@ std::string expandPath(const std::string &path) {
         return path;
     }
 
-    if (path.size() >= 1 && path[1] == '/') {
-        const char* home = getenv("HOME");
+    const char* home = getenv("HOME");
 
-        if (!home) {
-            struct passwd* pw = getpwuid(getuid());
-            home = pw ? pw->pw_name : ".";
-        }
+    if (!home) {
+        struct passwd* pw = getpwuid(getuid());
+        home = pw ? pw->pw_dir : ".";
+    }
 
-        if (path.length() == 1) {
-            return home;
-        }
+    if (path.length() == 1 && path == "~") return home;
+
+    if (path.size() > 1 && path[1] == '/') {
         return std::string(home) + path.substr(1);
     }
 
     size_t slash_pos = path.find('/');
     std::string username = path.substr(1, slash_pos - 1);
-
     passwd *pw = getpwnam(username.c_str());
-    if (!pw) {
-        std::cout << path << std::endl;
-    }
 
-    if (slash_pos == std::string::npos) {
-        return pw->pw_dir;
-    }
-    return (std::string)(pw->pw_dir) + path.substr(slash_pos);
+    if (!pw) { return path; }
+
+    if (slash_pos == std::string::npos) { return pw->pw_dir; }
+
+    return std::string(pw->pw_dir) + path.substr(slash_pos);
 }
 
 std::string expandEnvVars(const std::string &token) {
@@ -56,20 +52,16 @@ std::string expandEnvVars(const std::string &token) {
                     i++;
                 }
 
-                if (i < token.size()) i++;
+                if (i < token.size()) { i++; }
             }
 
             else {
-                while (i < token.size() && (std::isalnum(token[i]) || token[i] == '_')) {
-                    var_name += token[i++];
-                }
+                while (i < token.size() && (std::isalnum(token[i]) || token[i] == '_')) { var_name += token[i++]; }
             }
 
             if (!var_name.empty()) {
                 const char* val = std::getenv(var_name.c_str());
-                if (val) {
-                    env_var += val;
-                }
+                if (val) { env_var += val; }
             }
         }
 
@@ -80,4 +72,17 @@ std::string expandEnvVars(const std::string &token) {
     }
     return env_var;
 }
+
+
+std::string shortenDir(std::string path) {
+    const char* home = std::getenv("HOME");
+    if (!home) return path;
+    std::string homeStr(home);
+
+    if (path.find(homeStr) == 0) {
+        path.replace(0, homeStr.length(), "~");
+    }
+
+    return path;
+};
 

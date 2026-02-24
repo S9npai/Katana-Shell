@@ -1,0 +1,27 @@
+================================================================================
+COMMAND REFERENCE
+================================================================================
+
+ls      - List directory contents.
+          Options: [-l] (long format with permissions/owner), [-a] (show hidden).
+cd      - Change the current working directory. Defaults to $HOME.
+pwd     - Print the absolute path of the current working directory.
+mkdir   - Create directories.
+          Options: [-p] (create parent directories as needed).
+touch   - Create an empty file or update the access/modification time.
+rm      - Remove files or directories.
+          Options: [-r] (recursive removal).
+rmdir   - Remove empty directories.
+mv      - Move or rename files and directories.
+cp      - Copy files or directories.
+          Options: [-r] (recursive copy).
+find    - Search for files in the current directory tree.
+
+whoami   - Print the effective username of the current user.
+hostname - Print the system's network name.
+clear    - Clear the terminal screen using ANSI escape codes.
+
+exit     - Terminate the Katana-Shell session.
+quit     - Alias for exit.
+================================================================================
+

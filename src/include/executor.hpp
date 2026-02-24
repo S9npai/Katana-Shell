@@ -2,7 +2,7 @@
 #define EXECUTOR_HPP
 #include "types.hpp"
 
-void executeInternal(const Command &cmd);
-void executeExternal(const Command & cmd);
+void executeInternal(Command &cmd);
+void executeExternal(Command & cmd);
 
 #endif

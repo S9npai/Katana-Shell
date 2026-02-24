@@ -11,18 +11,36 @@
 Command parseCommand(const std::string& input) {
     Command cmd;
     std::stringstream ss(input);
+    std::string token;
     ss >> cmd.name;
 
-    std::string token;
-
     while (ss >> std::ws && !ss.eof()) {
-        if (ss.peek() == '"') {
-            ss >> quoted(token);
+        char peek = ss.peek();
+        if (ss.peek() == '"' || ss.peek() == '\'') {
+            ss >> quoted(token, peek);
+            if (peek == '"') token = expandEnvVars(token);
             cmd.parameters.push_back(token);
         }
 
         else {
             ss >> token;
+
+            if (token == "<" || token == ">" || token == ">>" || token == "2>") {
+                std::string filename;
+                if (ss >> filename) {
+                    filename = expandPath(filename);
+
+                    RedirectMode mode = {};
+
+                    if (token == "<")       mode = RedirectMode::Input;
+                    else if (token == ">")       mode = RedirectMode::Output;
+                    else if (token == ">>")       mode = RedirectMode::Append;
+                    else if (token == "2>")       mode = RedirectMode::Error;
+
+                    cmd.redirections.push_back({filename, mode});
+                }
+                continue;
+            }
 
             token = expandPath(token);
             token = expandEnvVars(token);
@@ -32,19 +50,28 @@ Command parseCommand(const std::string& input) {
             }
 
             else if (token[0] == '-') {
-                for (size_t i = 1; i < token.size(); i++) {
-                    cmd.options.push_back(token[i]);
-                }
+                for (size_t i = 1; i < token.size(); i++) cmd.options.push_back(token[i]);
             }
 
-            else {
-                cmd.parameters.push_back(token);
-            }
+            else cmd.parameters.push_back(token);
         }
-
         cmd.rawArgs.push_back(token);
     }
 
     return cmd;
 }
+
+pipeline parsePipeline(std::string &input) {
+    pipeline ppn;
+    std::string segment;
+    std::stringstream ss(input);
+
+    while (std::getline(ss, segment, '|')) {
+        if (segment.find_first_not_of(" \t\n\r") == std::string::npos) continue;
+        ppn.commands.push_back(parseCommand(segment));
+    }
+
+    return ppn;
+}
+
 

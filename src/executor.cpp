@@ -7,12 +7,26 @@
 #include "include/types.hpp"
 #include "include/execindex.hpp"
 #include "include/executor.hpp"
+#include "redirection.hpp"
+#include "signals.h"
 
 
-void executeInternal(const Command & cmd) {
+void executeInternal(Command &cmd) {
+    if (cmd.name.empty()) return;
+
     auto it = builtins.find(cmd.name);
     if (it != builtins.end()) {
+        int save_in = dup(STDIN_FILENO);
+        int save_out = dup(STDOUT_FILENO);
+
+        redirectionHandler(cmd);
+
         it->second(cmd);
+
+        dup2(save_in, STDIN_FILENO);
+        dup2(save_out, STDOUT_FILENO);
+        close(save_in);
+        close(save_out);
     }
 
     else {
@@ -20,38 +34,42 @@ void executeInternal(const Command & cmd) {
     }
 }
 
-void executeExternal(const Command &cmd) {
-    std::vector<char*>args;
-    args.push_back(const_cast<char*>(cmd.name.c_str()));
+void executeExternal(Command &cmd) {
+    auto agv = cmd.argv();
+    char** args = agv.data();
 
-    for (auto &g: cmd.rawArgs) {
-        args.push_back(const_cast<char*>(g.c_str()));
-    }
-    args.push_back(nullptr);
+    sigset_t prev;
+    blockSIGCHLD(prev);
 
     pid_t pid = fork();
 
-    if (pid < 0) std::perror("Forking failed ! \n");
+    if (pid == 0) {
+        setpgid(0,0);
+        setupChildSignals();
+        redirectionHandler(cmd);
 
-    else if (pid == 0) {
-        setpgid(pid, 0);
-        tcsetpgrp(STDIN_FILENO, getpgrp());
-        signal(SIGINT, SIG_DFL);
-
-        if (execvp(args[0], args.data()) == -1) {
-            std::perror("Execution failed");
+        if (execvp(args[0], args) == -1) {
+            std::perror("Katana-Shell");
             _exit(EXIT_FAILURE);
         }
+    }
 
-        _exit(1);
+    else if (pid > 0) {
+        setpgid(pid, pid);
+        tcsetpgrp(STDIN_FILENO, pid);
+
+        int status;
+        if (waitpid(pid, &status, WUNTRACED) < 0 && errno != ECHILD)
+            { perror("waitpid"); }
+
+        tcsetpgrp(STDIN_FILENO, getpgrp());
+        restoreSIGCHLD(prev);
     }
 
     else {
-        int status;
-        setpgid(pid, pid);
-        waitpid(pid, &status, 0);
-        tcsetpgrp(STDIN_FILENO, getpgrp());
+        std::perror("Forking failed ! \n");
+        restoreSIGCHLD(prev);
+        return;
     }
 }
-
 
