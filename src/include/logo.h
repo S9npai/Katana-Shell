@@ -3,6 +3,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include "helpers.hpp"
 #include "cmdheaders/filesys.hpp"
 
 
@@ -29,9 +30,8 @@ inline void drawLogo() {
 }
 
 inline void showPrompt() {
-    std::cout << palette::bold << palette::cyan << palette::blue << "Katanaヿラ " << palette::reset << currWorkingDir() << std::flush << std::endl;
+    std::cout << palette::bold << palette::cyan << palette::blue << "Katana " << palette::reset << shortenDir(currWorkingDir()) << std::flush << std::endl;
 }
 
 #endif
-
 

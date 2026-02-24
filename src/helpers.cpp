@@ -73,3 +73,16 @@ std::string expandEnvVars(const std::string &token) {
     return env_var;
 }
 
+
+std::string shortenDir(std::string path) {
+    const char* home = std::getenv("HOME");
+    if (!home) return path;
+    std::string homeStr(home);
+
+    if (path.find(homeStr) == 0) {
+        path.replace(0, homeStr.length(), "~");
+    }
+
+    return path;
+};
+

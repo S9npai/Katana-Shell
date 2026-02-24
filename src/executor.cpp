@@ -43,16 +43,9 @@ void executeExternal(Command &cmd) {
 
     pid_t pid = fork();
 
-    if (pid < 0) {
-        std::perror("Forking failed ! \n");
-        restoreSIGCHLD(prev);
-        return;
-    }
-
     if (pid == 0) {
-        restoreSIGCHLD(prev);
+        setpgid(0,0);
         setupChildSignals();
-
         redirectionHandler(cmd);
 
         if (execvp(args[0], args) == -1) {
@@ -62,11 +55,21 @@ void executeExternal(Command &cmd) {
     }
 
     else if (pid > 0) {
+        setpgid(pid, pid);
+        tcsetpgrp(STDIN_FILENO, pid);
+
         int status;
-        waitpid(pid, &status, WUNTRACED);
+        if (waitpid(pid, &status, WUNTRACED) < 0 && errno != ECHILD)
+            { perror("waitpid"); }
+
+        tcsetpgrp(STDIN_FILENO, getpgrp());
         restoreSIGCHLD(prev);
     }
+
+    else {
+        std::perror("Forking failed ! \n");
+        restoreSIGCHLD(prev);
+        return;
+    }
 }
-
-
 

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include "include/execindex.hpp"
+#include "utils.h"
 
 
 std::unordered_map<std::string, std::function<void(Command&)>> builtins = {
@@ -21,5 +22,7 @@ std::unordered_map<std::string, std::function<void(Command&)>> builtins = {
     {"find", [](Command& cmd) { findFile(cmd); }},
     {"touch", [](Command& cmd) { createFile(cmd); }},
     {"cp", [](Command& cmd) { copyFile(cmd); }},
+    {"history", [](Command&) { showHistory(); }},
+    {"help", [](Command&) { displayManual(); }},
 };
 

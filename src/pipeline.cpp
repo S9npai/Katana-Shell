@@ -1,8 +1,8 @@
 #include <iostream>
 #include <string>
 #include <unistd.h>
-#include "include/pipeline.hpp"
 #include <sys/wait.h>
+#include "include/pipeline.hpp"
 #include "execindex.hpp"
 #include "redirection.hpp"
 #include "signals.h"
@@ -11,30 +11,29 @@
 void pipelineHandler(pipeline &ppn) {
     int prev_read = -1;
     std::vector<pid_t> pids;
+    pid_t pgid = 0;
+    sigset_t prev;
+    blockSIGCHLD(prev);
 
     for (std::size_t i = 0; i < ppn.commands.size(); i++) {
         bool last = (i == ppn.commands.size() - 1);
 
         int fd[2];
-        if (!last) {
-            if (pipe(fd) == -1) { perror("pipe"); break; }
-        }
-
-        sigset_t prev;
-        blockSIGCHLD(prev);
+        if (!last && pipe(fd) == -1) { perror("pipe"); break; }
 
         pid_t pid = fork();
 
         if (pid < 0) {
             perror("Fork:");
-            restoreSIGCHLD(prev);
+            //restoreSIGCHLD(prev);
             if (!last) { close(fd[0]); close(fd[1]); }
             break;
         }
 
         if (pid == 0) {
-            signal(SIGINT, SIG_DFL);
-            restoreSIGCHLD(prev);
+            setupChildSignals();
+            if (i == 0) pgid = getpid();
+            setpgid(0, pgid);
 
             if (prev_read != -1) {
                 dup2(prev_read, STDIN_FILENO);
@@ -49,12 +48,9 @@ void pipelineHandler(pipeline &ppn) {
 
             Command &cmd = ppn.commands[i];
             redirectionHandler(cmd);
-            auto it = builtins.find(cmd.name);
 
-            if (it != builtins.end()) {
-                it->second(cmd);
-                _exit(EXIT_SUCCESS);
-            }
+            auto it = builtins.find(cmd.name);
+            if (it != builtins.end()) { it->second(cmd); _exit(EXIT_SUCCESS); }
 
             auto args = cmd.argv();
             execvp(args[0], args.data());
@@ -62,8 +58,11 @@ void pipelineHandler(pipeline &ppn) {
             _exit(EXIT_FAILURE);
         }
 
+        if (i == 0) pgid = pid;
+        setpgid(pid, pgid);
+        tcsetpgrp(STDIN_FILENO, pgid);
+
         pids.push_back(pid);
-        restoreSIGCHLD(prev);
 
         if (prev_read != -1) close(prev_read);
         if (!last) close(fd[1]);
@@ -72,10 +71,16 @@ void pipelineHandler(pipeline &ppn) {
 
     if (prev_read != -1) close(prev_read);
 
-    for (auto &p: pids) {
-        int status;
-        waitpid(p, &status,0);
-    }
-}
+    restoreSIGCHLD(prev);
 
+    for (auto &p : pids) {
+        int status;
+        if (waitpid(p, &status, WUNTRACED) < 0 && errno != ECHILD)
+            perror("waitpid");
+        if (WIFSIGNALED(status))
+            write(STDOUT_FILENO, "\n", 1);
+    }
+
+    tcsetpgrp(STDIN_FILENO, getpgrp());
+}
 
