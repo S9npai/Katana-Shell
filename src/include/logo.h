@@ -10,6 +10,7 @@
 struct palette {
     inline static std::string cyan = "\033[38;5;81m";
     inline static std::string blue = "\033[38;5;105m";
+    inline static std::string aqua = "\033[38;5;111m";
     inline static std::string bold = "\033[1m";
     inline static std::string reset = "\033[0m";
 };
@@ -30,7 +31,8 @@ inline void drawLogo() {
 }
 
 inline void showPrompt() {
-    std::cout << palette::bold << palette::cyan << palette::blue << "Katana " << palette::reset << shortenDir(currWorkingDir()) << std::flush << std::endl;
+    std::cout << palette::bold << palette::cyan << palette::blue << "Katana " << palette::reset << palette::bold <<
+        palette::aqua << shortenDir(currWorkingDir()) << palette::reset << std::flush << std::endl;
 }
 
 #endif
