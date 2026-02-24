@@ -1,8 +1,0 @@
-opendir: No such file or directory
-drwxr-xr-x  1 omar omar        0 KB  Feb 18 19:03:25  .
-drwx------  1 omar omar        2 KB  Feb 24 00:14:52  ..
-drwxr-xr-x  1 omar omar        0 KB  Dec 24 01:53:42  Competitive Programming
-drwxr-xr-x  1 omar omar        0 KB  Dec 24 01:44:23  Projects
-drwxr-xr-x  1 omar omar        0 KB  Mar 08 19:53:16  .ropeproject
-drwxr-xr-x  1 omar omar        0 KB  Jun 15 00:25:05  .idea
-drwxrwxrwx  1 omar omar        0 KB  Nov 30 23:00:23  Dots

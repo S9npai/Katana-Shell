@@ -17,10 +17,9 @@ std::unordered_map<std::string, std::function<void(Command&)>> builtins = {
     {"mkdir", [](Command& cmd) { createDir(cmd); }},
     {"mv", [](Command& cmd) { move(cmd); }},
     {"rmdir", [](Command& cmd) { removeDir(cmd); }},
-    {"rm", [](Command& cmd) { removeFile(cmd); }}/*,
+    {"rm", [](Command& cmd) { removeFile(cmd); }},
     {"find", [](Command& cmd) { findFile(cmd); }},
-    {"touch", [](const Command&) { createFile(); }},
-    ,
-    {"cp", [](const Command&) { copy(); }},*/
+    {"touch", [](Command& cmd) { createFile(cmd); }},
+    {"cp", [](Command& cmd) { copyFile(cmd); }},
 };
 

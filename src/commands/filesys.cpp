@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
+#include <regex>
 #include <unistd.h>
 #include <fstream>
 #include <dirent.h>
@@ -241,17 +242,47 @@ void createFile(Command &cmd) {
 
         }
 
-        catch (fs::filesystem_error &e) {
+        catch (filesystem_error &e) {
             std::cerr << "touch:" << e.what() << std::endl;
         }
     }
 }
 
 void findFile(Command &cmd) {
-    if (cmd.parameters.size() < 1) { std::cerr << "Usage: find [path] [filename]" << std::endl; }
+    if (cmd.parameters.size() < 1) { std::cerr << "Usage: find [path] [filename] | [regex pattern]" << std::endl; return; }
     std::string target = cmd.parameters[0];
 
+    bool foundLiteral = false;
     for (auto &entry: fs::recursive_directory_iterator(".")) {
-        if (entry.path().filename() == target) std::cout << entry.path().string() << std::endl;
+        if (entry.path().filename() == target) {
+            std::cout << entry.path().string() << std::endl;
+            foundLiteral = true;
+        }
+    }
+    if (foundLiteral) return;
+
+    size_t pos = 0;
+    while ((pos = target.find('.', pos)) != std::string::npos) {
+        target.replace(pos, 1, "\\.");
+        pos += 2;
+    }
+
+    pos = 0;
+    while ((pos = target.find('*', pos)) != std::string::npos) {
+        target.replace(pos, 1, ".*");
+        pos += 2;
+    }
+
+    try {
+        std::regex pattern(target);
+        for (auto &entry: fs::recursive_directory_iterator(".")) {
+            if (std::regex_match(entry.path().filename().string(), pattern))
+                std::cout << entry.path().string() << std::endl;
+        }
+    }
+
+    catch (std::regex_error &e) {
+        std::cerr << e.what() << std::endl;
     }
 }
+

@@ -7,7 +7,6 @@
 #include "include/types.hpp"
 #include "include/execindex.hpp"
 #include "include/executor.hpp"
-
 #include "redirection.hpp"
 #include "signals.h"
 

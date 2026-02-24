@@ -4,6 +4,8 @@ built from the ground-up to explore core operating systems concepts and kernel s
 
 Inspired by **Operating Systems: Three Easy Pieces (OSTEP) 📕**
 
+![Screenshot](assets/)
+
 ## Installation
 
 ### Requirements
@@ -44,11 +46,11 @@ cmake --build build
 - [x] Current directory (pwd)
 - [x] Moving files and directories **(mv)** 
 - [x] Deleting directories **(rmdir)**
-- [ ] File finder **(find)**
-- [ ] File creation and deletion **(touch) & (rm)**
+- [X] File finder **(find)**
+- [X] File creation and deletion **(touch) & (rm)**
 
 ### 4- Advanced Features
 - [x] Command pipes **( | )**
 - [X] **Input/Output** Redirection **(>, >>, <, <<)**
-- [ ] Command history
+- [X] Command history
 
