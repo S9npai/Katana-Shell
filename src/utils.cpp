@@ -12,19 +12,14 @@
 std::deque<std::string> command_history;
 const size_t Max_history = 25;
 
-
-// Resolves HOME at runtime — safe for any user on any machine
 static std::string getHome() {
     const char* home = getenv("HOME");
-    if (!home) home = getpwuid(getuid())->pw_dir;  // fallback if HOME unset
+    if (!home) home = getpwuid(getuid())->pw_dir;
     return std::string(home);
 }
 
-// KATANA_DATA_SUFFIX and KATANA_HISTORY_SUFFIX are injected by CMake
-// as plain relative strings like ".local/share/katana-shell"
 static const std::string history_file = getHome() + "/" + KATANA_HISTORY_SUFFIX;
 static const std::string data_dir     = getHome() + "/" + KATANA_DATA_SUFFIX;
-
 
 void saveHistory() {
     std::ofstream ofs(history_file, std::ios::trunc);
@@ -76,4 +71,5 @@ void displayManual() {
     while (std::getline(manual, line))
         std::cout << line << std::endl;
 }
+
 

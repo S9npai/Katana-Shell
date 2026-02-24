@@ -19,7 +19,7 @@ int main() {
     drawLogo();
 
     while (true) {
-        showPrompt();
+        std::cout << buildPrompt() << std::flush;
 
         std::string input;
         if (!std::getline(std::cin, input)) {
@@ -51,3 +51,4 @@ int main() {
     saveHistory();
     return 0;
 }
+

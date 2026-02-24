@@ -31,9 +31,11 @@ inline void drawLogo() {
     }
 }
 
-inline void showPrompt() {
-    std::cout << palette::bold << palette::cyan << palette::blue << "Katana " << palette::reset << palette::bold <<
-        palette::aqua << shortenDir(currWorkingDir()) << palette::reset << std::flush << std::endl;
+inline std::string buildPrompt() {
+    return
+    palette::bold + palette::cyan + palette::blue +
+        "Katana " + palette::reset + palette::bold +
+        palette::aqua + shortenDir(currWorkingDir()) + palette::reset + "\n";
 }
 
 #endif

@@ -7,8 +7,8 @@
 
 
 std::unordered_map<std::string, std::function<void(Command&)>> builtins = {
-    {"exit", [](Command&) { std::exit(EXIT_SUCCESS); }},
-    {"quit", [](Command&) { std::exit(EXIT_SUCCESS); }},
+    {"exit", [](Command&) { saveHistory(); std::exit(EXIT_SUCCESS); }},
+    {"quit", [](Command&) { saveHistory(); std::exit(EXIT_SUCCESS); }},
     {"hostname", [](Command&) { get_host(); }},
     {"whoami", [](Command&){ get_user(); }},
     {"clear", [](Command&) { clearScreen(); }},

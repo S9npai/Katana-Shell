@@ -4,7 +4,7 @@ built from the ground-up to explore core operating systems concepts and kernel s
 
 Inspired by **Operating Systems: Three Easy Pieces (OSTEP) 📕**
 
-![Screenshot](assets/)
+![Screenshot](assets/demo%20screenshot.png)
 
 ## Installation
 
@@ -24,7 +24,7 @@ cmake --install build
 ```
 **This installs:**
 - ```Binary → ~/.local/bin/Katana-Shell```
-- ```Manual → ~/.local/share/katana-shell/```
+- ```Manual → ~/.local/share/Katana-shell/```
 
 
 **Note:** Make sure ~/.local/bin is in your PATH. If not, add this to your ~/.bashrc or ~/.zshrc:
@@ -32,7 +32,7 @@ cmake --install build
 Then run ```source ~/.bashrc``` or ```source ~/.zshrc``` to apply 
 
 **Uninstall:** ```cmake --build build --target uninstall``` <br>
-This removes the binary and the manual directory. Your history file (~/.katana_history) is left untouched — delete it manually if needed:
+This removes the binary and the manual directory.<br> Your history file: ```~/.Katana_history``` is left untouched — delete it manually if needed:
 
 ---
 

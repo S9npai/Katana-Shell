@@ -7,7 +7,6 @@ project(Katana-Shell
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_executable(Katana-Shell
@@ -28,8 +27,8 @@ target_include_directories(Katana-Shell PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/
 target_compile_features(Katana-Shell PRIVATE cxx_std_20)
 
 target_compile_definitions(Katana-Shell PRIVATE
-        KATANA_DATA_SUFFIX=".local/share/katana-shell"
-        KATANA_HISTORY_SUFFIX=".katana_history"
+        KATANA_DATA_SUFFIX=".local/share/Katana-shell"
+        KATANA_HISTORY_SUFFIX=".Katana_history"
 )
 
 if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
@@ -40,7 +39,7 @@ install(TARGETS Katana-Shell
         RUNTIME DESTINATION bin)
 
 install(FILES "Katana-Shell reference.txt"
-        DESTINATION share/katana-shell)
+        DESTINATION share/Katana-shell)
 
 add_custom_target(uninstall
         COMMAND rm -f "$ENV{HOME}/.local/bin/Katana-Shell"
