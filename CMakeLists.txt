@@ -27,3 +27,24 @@ add_executable(Katana-Shell
 target_include_directories(Katana-Shell PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/src/include)
 target_compile_features(Katana-Shell PRIVATE cxx_std_20)
 
+target_compile_definitions(Katana-Shell PRIVATE
+        KATANA_DATA_SUFFIX=".local/share/katana-shell"
+        KATANA_HISTORY_SUFFIX=".katana_history"
+)
+
+if(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "$ENV{HOME}/.local" CACHE PATH "Install prefix" FORCE)
+endif()
+
+install(TARGETS Katana-Shell
+        RUNTIME DESTINATION bin)
+
+install(FILES "Katana-Shell reference.txt"
+        DESTINATION share/katana-shell)
+
+add_custom_target(uninstall
+        COMMAND rm -f "$ENV{HOME}/.local/bin/Katana-Shell"
+        COMMAND rm -rf "$ENV{HOME}/.local/share/Katana-shell"
+        COMMENT "Uninstalling Katana-Shell..."
+)
+

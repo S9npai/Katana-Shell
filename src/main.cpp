@@ -51,4 +51,3 @@ int main() {
     saveHistory();
     return 0;
 }
-

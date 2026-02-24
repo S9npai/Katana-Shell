@@ -25,7 +25,6 @@ void pipelineHandler(pipeline &ppn) {
 
         if (pid < 0) {
             perror("Fork:");
-            //restoreSIGCHLD(prev);
             if (!last) { close(fd[0]); close(fd[1]); }
             break;
         }
@@ -83,4 +82,5 @@ void pipelineHandler(pipeline &ppn) {
 
     tcsetpgrp(STDIN_FILENO, getpgrp());
 }
+
 

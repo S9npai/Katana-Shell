@@ -3,22 +3,35 @@
 #include <iomanip>
 #include <iostream>
 #include <fstream>
-#include "include/utils.h"
 #include <filesystem>
+#include <pwd.h>
+#include <unistd.h>
+#include "include/utils.h"
 
 
 std::deque<std::string> command_history;
 const size_t Max_history = 25;
-std::string history_file = "assets/history.txt";
+
+
+// Resolves HOME at runtime — safe for any user on any machine
+static std::string getHome() {
+    const char* home = getenv("HOME");
+    if (!home) home = getpwuid(getuid())->pw_dir;  // fallback if HOME unset
+    return std::string(home);
+}
+
+// KATANA_DATA_SUFFIX and KATANA_HISTORY_SUFFIX are injected by CMake
+// as plain relative strings like ".local/share/katana-shell"
+static const std::string history_file = getHome() + "/" + KATANA_HISTORY_SUFFIX;
+static const std::string data_dir     = getHome() + "/" + KATANA_DATA_SUFFIX;
+
 
 void saveHistory() {
     std::ofstream ofs(history_file, std::ios::trunc);
     if (!ofs.is_open()) return;
 
-    for (const auto& cmd : command_history) {
+    for (const auto& cmd : command_history)
         ofs << cmd << "\n";
-    }
-    ofs.close();
 }
 
 void addToHistory(const std::string &cmd) {
@@ -26,9 +39,8 @@ void addToHistory(const std::string &cmd) {
     if (!command_history.empty() && command_history.back() == cmd) return;
 
     command_history.push_back(cmd);
-    if (command_history.size() > Max_history) {
+    if (command_history.size() > Max_history)
         command_history.pop_front();
-    }
 }
 
 void showHistory() {
@@ -38,39 +50,30 @@ void showHistory() {
     }
 
     int index = 1;
-    for (const auto& cmd : command_history) {
+    for (const auto& cmd : command_history)
         std::cout << " " << std::setw(3) << index++ << "  " << cmd << std::endl;
-    }
 }
 
 void loadHistory() {
-    if (!std::filesystem::exists("assets")) {
-        std::filesystem::create_directory("assets");
-    }
-
     std::ifstream ifs(history_file);
-    if (!ifs.is_open()) return;
+    if (!ifs.is_open()) return;  // first run, file doesn't exist yet — that's fine
 
     std::string line;
-    while (std::getline(ifs, line)) {
+    while (std::getline(ifs, line))
         if (!line.empty()) command_history.push_back(line);
-    }
 }
 
 void displayManual() {
-    std::string manualPath = "Katana-Shell reference.txt";
+    std::string manualPath = data_dir + "/Katana-Shell reference.txt";
     std::ifstream manual(manualPath);
 
     if (!manual.is_open()) {
-        std::cerr << "Error: Command reference " << manualPath << " not found." << std::endl;
+        std::cerr << "Error: manual not found at " << manualPath << std::endl;
         return;
     }
 
     std::string line;
-    while (std::getline(manual, line)) {
+    while (std::getline(manual, line))
         std::cout << line << std::endl;
-    }
-
-    manual.close();
 }
 
