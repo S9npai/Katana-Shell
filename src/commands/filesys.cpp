@@ -129,20 +129,6 @@ void createDir(Command& cmd) {
 
 void changeCurrDir(Command &cmd) {
     std::string destDir;
-    //const char* homeDir = getenv("HOME");
-
-    /*if (cmd.parameters.empty()) {
-        if (homeDir != nullptr) {
-            destDir = homeDir;
-        }
-        else {
-            perror("Error: HOME environment variable not set");
-        }
-    }
-
-    else if (!cmd.parameters.empty()) {
-        destDir = cmd.parameters[0];
-    }*/
 
     destDir = cmd.parameters.empty() ? getenv("HOME") : cmd.parameters[0];
 
@@ -261,6 +247,7 @@ void findFile(Command &cmd) {
     }
     if (foundLiteral) return;
 
+
     size_t pos = 0;
     while ((pos = target.find('.', pos)) != std::string::npos) {
         target.replace(pos, 1, "\\.");
@@ -285,4 +272,3 @@ void findFile(Command &cmd) {
         std::cerr << e.what() << std::endl;
     }
 }
-
