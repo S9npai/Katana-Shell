@@ -9,12 +9,12 @@ Inspired by **Operating Systems: Three Easy Pieces (OSTEP) 📕**
 ## Installation
 
 ### Prerequisites
-- Linux distribution (Ubuntu, Fedora, etc.. )
+- Linux distribution (Ubuntu, Fedora, NixOS, etc.. )
 - CMake ≥ 3.20
 - Ninja
 - A **C/C++ >= 20** compatible compiler **(GCC 13+ or Clang 19+)**
 
-**Setup & Install**
+**Setup & Install (FHS-based Linux Distros)**
 ```
 git clone https://github.com/S9npai/Katana-Shell
 cd Katana-Shell
@@ -23,20 +23,46 @@ cmake --build build
 cmake --install build
 ```
 **This installs:**
-- ```Binary → ~/.local/bin/Katana-Shell```
-- ```Manual → ~/.local/share/Katana-shell/```
+- Binary → ```~/.local/bin/Katana-Shell```
+- Manual → ```~/.local/share/Katana-shell/```
 
 
-**Note:** Make sure ~/.local/bin is in your PATH. If not, add this to your ~/.bashrc or ~/.zshrc:
-```export PATH="$HOME/.local/bin:$PATH"```<br> 
+**Note:** Make sure ~/.local/bin is in your PATH. \
+If not, add this to your ~/.bashrc or ~/.zshrc:
+```export PATH="$HOME/.local/bin:$PATH"```\
 Then run ```source ~/.bashrc``` or ```source ~/.zshrc``` to apply 
 
-**Uninstall:** ```cmake --build build --target uninstall``` <br>
-This removes the binary and the manual directory.<br> Your history file: ```~/.Katana_history``` is left untouched — delete it manually if needed:
+**Uninstall:** \
+```cmake --build build --target uninstall``` This removes the binary and the manual directory.\
+Your history file: ```~/.Katana_history``` is left untouched — delete it manually if needed:
+
+#### For NixOS (Non-FHS)
+**Setup & Build**
+
+```
+shell
+git clone https://github.com/S9npai/Katana-Shell
+cd Katana-Shell
+nix build
+```
+
+**Flake Output:**
+- `flake.lock` lockfile
+- result symlink folder containing: \
+  Binary -> `./result/bin/Katana-Shell` \
+  Manual -> `./result/share/Katana-shell/Katana-Shell reference.txt`
+
+
+**Uninstall:**
+- `readlink result`: Returns the exact path and hash of the output binary (copy it)
+- `rm result` -- Remove symlink folder
+- `nix-store --delete /nix/store/YOUR-EXACT-HASH-katana-shell-1.0.0` -- Delete binary
+
 
 ---
 
 ## Project Structure
+
 ```
 .
 ├── CMakeLists.txt                  # Build configuration
@@ -95,5 +121,3 @@ This removes the binary and the manual directory.<br> Your history file: ```~/.K
 - [x] Command pipes **( | )**
 - [X] **Input/Output** Redirection **(>, >>, <, <<)**
 - [ ] Command history
-
-
